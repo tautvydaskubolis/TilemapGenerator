@@ -38,7 +38,7 @@ namespace TilemapGenerator
             var tileSources = new List<Tile>();
             foreach (var tile in tiles)
             {
-                var assetPath = AssetDatabase.GetAssetPath(tile.id);
+                var assetPath = AssetDatabase.GUIDToAssetPath(tile.guid);
                 var asset = (Tile)AssetDatabase.LoadAssetAtPath(assetPath, typeof(Tile));
                 tileSources.Add(asset);
             }

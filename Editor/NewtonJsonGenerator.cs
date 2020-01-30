@@ -35,12 +35,15 @@ namespace TilemapGenerator
                 var tiledata = new CustomTile();
                 tiledata.localPosition = pos;
                 tiledata.id = tile.GetInstanceID();
+                AssetDatabase.TryGetGUIDAndLocalFileIdentifier(tile, out string guid, out long localid);
+                tiledata.guid = guid;
+                tiledata.localId = localid;
                 tileList.Add(tiledata);
             }
         }
         private static void WriteToJSON(List<CustomTile> tileList)
         {
-            string path = "Packages/TilemapGenerator/Editor/TilemapChunks/" + Selection.gameObjects[0].name + ".json";
+            string path = "Assets/" + Selection.gameObjects[0].name + ".json";
 
             if (File.Exists(path)) File.Delete(path);
 
