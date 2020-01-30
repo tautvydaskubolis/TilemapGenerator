@@ -32,12 +32,10 @@ namespace TilemapGenerator
                 }
 
                 var tile = (Tile)tilemap.GetTile(pos);
-                var chunk = new CustomTile();
-                chunk.localPosition = pos;
-                chunk.id = tile.GetInstanceID();
-
-                var scriptedTile = ScriptableObject.CreateInstance<NormalFloorTile>();
-                tileList.Add(chunk);
+                var tiledata = new CustomTile();
+                tiledata.localPosition = pos;
+                tiledata.id = tile.GetInstanceID();
+                tileList.Add(tiledata);
             }
         }
         private static void WriteToJSON(List<CustomTile> tileList)
