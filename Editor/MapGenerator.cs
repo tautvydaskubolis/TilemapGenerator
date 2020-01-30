@@ -13,8 +13,16 @@ namespace TilemapGenerator
         {
             List<CustomTile> tiles = ReadJSON(chunkName);
             var tileSources = FindTileSources(tiles);
-            Draw(tiles, tileSources, tilemap);
+            DrawRight(tiles, tileSources, tilemap);
         }
+
+        public void DrawTiles(Vector2Int startPos, Tilemap tilemap, string chunkName)
+        {
+            List<CustomTile> tiles = ReadJSON(chunkName);
+            var tileSources = FindTileSources(tiles);
+            Draw(startPos, tiles, tileSources, tilemap)
+        }
+
         private List<CustomTile> ReadJSON(string chunkName)
         {
             List<CustomTile> tiles = new List<CustomTile>();
@@ -45,7 +53,7 @@ namespace TilemapGenerator
             return tileSources;
         }
 
-        private void Draw(List<CustomTile> tiles, List<Tile> tileSources, Tilemap tilemap)
+        private void DrawRight(List<CustomTile> tiles, List<Tile> tileSources, Tilemap tilemap)
         {
             tilemap.CompressBounds();
             var boundsX = (int)tilemap.localBounds.max.x; //Tilemap rightmost x coordinates
@@ -66,6 +74,20 @@ namespace TilemapGenerator
             {
                 var pos = tiles[i].localPosition;
                 tilemap.SetTile(new Vector3Int(pos.x + boundsX + additionLength, pos.y, pos.z), tileSources[i]);
+            }
+
+            tilemap.RefreshAllTiles();
+
+            Debug.Log("Finished generating tiles!");
+        }
+
+        private void Draw(Vector2Int startPos, List<CustomTile> tiles, List<Tile> tileSources, Tilemap tilemap)
+        {
+            tilemap.CompressBounds();
+            for (int i = 0; i < tiles.Count && i < tileSources.Count; i++)
+            {
+                var pos = tiles[i].localPosition;
+                tilemap.SetTile(new Vector3Int(pos.x + startPos.x, pos.y + startPos.y, pos.z), tileSources[i]);
             }
 
             tilemap.RefreshAllTiles();
